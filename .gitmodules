@@ -1,0 +1,3 @@
+[submodule "interactive-greeting-app"]
+	path = interactive-greeting-app
+	url = https://github.com/praiz-y/interactive-greeting-app.git
