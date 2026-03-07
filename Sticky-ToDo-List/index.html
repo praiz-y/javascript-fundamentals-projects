@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sticky Notes — Todo Board</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Background texture dots -->
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <div class="app-wrapper">
+
+    <!-- ===== HEADER ===== -->
+    <header class="app-header">
+      <div class="header-icon">📌</div>
+      <div class="header-text">
+        <h1 class="app-title">StickyBoard</h1>
+        <p class="app-subtitle">Your tasks, stuck right where you need them</p>
+      </div>
+      <div class="task-counter">
+        <span id="taskCount">0</span>
+        <small>tasks</small>
+      </div>
+    </header>
+
+    <!-- ===== INPUT AREA ===== -->
+    <section class="input-section" aria-label="Add a new task">
+      <div class="input-card">
+        <div class="input-row">
+          <input
+            type="text"
+            id="taskInput"
+            class="task-input"
+            placeholder="What needs to be done?"
+            maxlength="120"
+            autocomplete="off"
+          />
+          <select id="categorySelect" class="category-select" aria-label="Select category">
+            <option value="personal">🌿 Personal</option>
+            <option value="work">💼 Work</option>
+            <option value="study">📚 Study</option>
+            <option value="urgent">🔥 Urgent</option>
+            <option value="idea">💡 Idea</option>
+          </select>
+          <button id="addBtn" class="add-btn" aria-label="Add task">
+            <span class="btn-icon">+</span>
+            <span class="btn-label">Add Note</span>
+          </button>
+        </div>
+        <div class="char-counter">
+          <span id="charCount">0</span>/120
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FILTER BAR ===== -->
+    <nav class="filter-bar" aria-label="Filter tasks">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="active">Active</button>
+      <button class="filter-btn" data-filter="completed">Done</button>
+      <button class="filter-btn" data-filter="personal">🌿 Personal</button>
+      <button class="filter-btn" data-filter="work">💼 Work</button>
+      <button class="filter-btn" data-filter="study">📚 Study</button>
+      <button class="filter-btn" data-filter="urgent">🔥 Urgent</button>
+      <button class="filter-btn" data-filter="idea">💡 Idea</button>
+    </nav>
+
+    <!-- ===== TASK BOARD ===== -->
+    <main class="task-board" id="taskBoard" aria-label="Task board">
+      <!-- Cards rendered by JS -->
+    </main>
+
+    <!-- ===== EMPTY STATE ===== -->
+    <div class="empty-state" id="emptyState" hidden>
+      <div class="empty-icon">🗒️</div>
+      <p class="empty-title">No notes here yet!</p>
+      <p class="empty-sub">Add your first task above to get started.</p>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="app-footer">
+      <button id="clearCompleted" class="clear-btn">Clear completed</button>
+    </footer>
+
+  </div>
+
+  <!-- ===== EDIT MODAL ===== -->
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+    <div class="modal">
+      <h2 class="modal-title" id="modalTitle">Edit Note</h2>
+      <textarea id="editInput" class="edit-input" maxlength="120" rows="3"></textarea>
+      <div class="modal-actions">
+        <button id="cancelEdit" class="modal-btn cancel">Cancel</button>
+        <button id="saveEdit" class="modal-btn save">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
