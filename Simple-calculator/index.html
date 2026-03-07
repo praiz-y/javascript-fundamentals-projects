@@ -9,8 +9,10 @@
 <body>
     
   <div class="calculator" id="calculator">
-    <button id="themeToggle">Toggle Theme</button>
-    <input type="text" id="display" readonly>
+  <label class="theme-switch">
+    <input type="checkbox" id="themeToggle">
+    <span class="slider"></span>
+  </label>    <input type="text" id="display" readonly>
     <div id="history"></div>
     <div class="buttons">
       <button class="btn btn-clear" id="clear">C</button>

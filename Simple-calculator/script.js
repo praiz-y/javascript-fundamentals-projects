@@ -20,7 +20,7 @@ const renderHistory = () => {
 };
 
 themeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('dark');
+    document.body.classList.toggle('light');
 });
 
 Array.from(DOM.buttons).forEach(button => {
@@ -63,6 +63,11 @@ const clearDisplay = () => {
 }
 
 const backspaceInput = () => {
+    if (currentInput === "Error") {
+        currentInput = "";
+        updateDisplay();
+        return;
+    }
     currentInput = currentInput.slice(0, -1);
     updateDisplay();
 }
@@ -144,20 +149,34 @@ const appendInput = (value) => {
 };
 
 const negateNumber = () => {
-    const parts = currentInput.split(/([\+\-\*\/])/);
 
-    // Last item in array is the current number
-    let lastPart = parts[parts.length - 1];
+    if (!currentInput) return;
 
-    if (!lastPart) return;
+    // Split expression while keeping operators
+    const parts = currentInput.split(/([+\-*/])/);
 
-    if (lastPart.startsWith('-')) {
-        parts[parts.length - 1] = lastPart.slice(1);
+    let lastNumber = parts[parts.length - 1];
+
+    // If last part isn't a number, stop
+    if (!lastNumber || isNaN(lastNumber)) return;
+
+    if (lastNumber.startsWith('-')) {
+        lastNumber = lastNumber.slice(1);
     } else {
-        parts[parts.length - 1] = '-' + lastPart;
+        lastNumber = '-' + lastNumber;
     }
 
+    parts[parts.length - 1] = lastNumber;
+
     currentInput = parts.join('');
+
+    // Clean up operator combinations
+    currentInput = currentInput
+        .replace(/\+\-/g, '-')
+        .replace(/\-\-/g, '+')
+        .replace(/\*\-/g, '*-')
+        .replace(/\/\-/g, '/-');
+
     updateDisplay();
 };
 
