@@ -1,15 +1,5 @@
-/**
- * ============================================================
- * STICKY NOTES TODO APP — script.js
- * ============================================================
- * Architecture: Module-style vanilla JS
- * Storage: localStorage
- * ============================================================
- */
 
-// ============================================================
-// 1. DOM SELECTIONS
-// ============================================================
+
 const taskInput      = document.getElementById('taskInput');
 const categorySelect = document.getElementById('categorySelect');
 const addBtn         = document.getElementById('addBtn');
@@ -26,17 +16,8 @@ const editInput      = document.getElementById('editInput');
 const saveEdit       = document.getElementById('saveEdit');
 const cancelEdit     = document.getElementById('cancelEdit');
 
-// ============================================================
-// 2. APP STATE
-// ============================================================
+// APP STATE
 
-/**
- * tasks: array of task objects
- *   { id, text, category, completed, createdAt }
- *
- * currentFilter: which filter is currently active
- * editingId: the id of the task being edited (or null)
- */
 let tasks         = [];
 let currentFilter = 'all';
 let editingId     = null;
@@ -50,9 +31,7 @@ const CATEGORY_LABELS = {
   idea:     '💡 Idea',
 };
 
-// ============================================================
-// 3. LOCAL STORAGE HELPERS
-// ============================================================
+//  LOCAL STORAGE HELPERS
 
 /**
  * saveTasks — serialise the tasks array and store it.
@@ -73,23 +52,13 @@ function loadTasks() {
   tasks = raw ? JSON.parse(raw) : [];
 }
 
-// ============================================================
-// 4. TASK CREATION
-// ============================================================
+//  TASK CREATION
 
-/**
- * generateId — creates a unique string ID using the current
- * timestamp + a small random number to avoid collisions.
- */
 function generateId() {
   return `${Date.now()}_${Math.floor(Math.random() * 10000)}`;
 }
 
-/**
- * addTask — reads values from the input field and dropdown,
- * creates a new task object, pushes it to the tasks array,
- * saves to localStorage, then re-renders the board.
- */
+
 function addTask() {
   const text     = taskInput.value.trim();
   const category = categorySelect.value;
@@ -124,14 +93,8 @@ function addTask() {
   renderBoard();
 }
 
-// ============================================================
-// 5. CARD RENDERING
-// ============================================================
+//  CARD RENDERING
 
-/**
- * getFilteredTasks — returns a subset of tasks depending on
- * the currently active filter button.
- */
 function getFilteredTasks() {
   switch (currentFilter) {
     case 'active':    return tasks.filter(t => !t.completed);
@@ -147,17 +110,11 @@ function getFilteredTasks() {
   }
 }
 
-/**
- * renderBoard — clears the board and re-renders every visible
- * card. Also updates the task counter and empty-state message.
- */
 function renderBoard() {
-  // Remove all existing cards from the DOM
   taskBoard.innerHTML = '';
 
   const visible = getFilteredTasks();
 
-  // Show or hide the empty state illustration
   if (visible.length === 0) {
     emptyState.hidden = false;
     taskBoard.appendChild(emptyState);
@@ -199,7 +156,6 @@ function buildCard(task) {
   text.className   = 'card-text';
   text.textContent = task.text;
 
-  /* --- Footer (checkbox + action buttons) --- */
   const footer = document.createElement('div');
   footer.className = 'card-footer';
 
@@ -239,14 +195,7 @@ function buildCard(task) {
   return card;
 }
 
-// ============================================================
-// 6. TOGGLE COMPLETE
-// ============================================================
-
-/**
- * toggleComplete — flips the completed flag on a task,
- * saves, and re-renders. The CSS handles the visual strikethrough.
- */
+// TOGGLE COMPLETE
 function toggleComplete(id) {
   const task = tasks.find(t => t.id === id);
   if (!task) return;
@@ -256,15 +205,8 @@ function toggleComplete(id) {
   renderBoard();
 }
 
-// ============================================================
-// 7. DELETE TASK
-// ============================================================
+// DELETE TASK
 
-/**
- * deleteTask — adds the 'deleting' CSS class to trigger the
- * exit animation, then removes the task after the animation
- * duration (400 ms) and re-renders.
- */
 function deleteTask(id, cardElement) {
   // Play exit animation first
   cardElement.classList.add('deleting');
@@ -273,17 +215,10 @@ function deleteTask(id, cardElement) {
     tasks = tasks.filter(t => t.id !== id);
     saveTasks();
     renderBoard();
-  }, 400); // matches animation duration in CSS
+  }, 400);
 }
 
-// ============================================================
-// 8. EDIT MODAL
-// ============================================================
-
-/**
- * openEditModal — stores the task id being edited, pre-fills
- * the textarea with the current text, and shows the modal.
- */
+// EDIT MODAL
 function openEditModal(id) {
   const task = tasks.find(t => t.id === id);
   if (!task) return;
@@ -296,19 +231,13 @@ function openEditModal(id) {
   editInput.selectionStart = editInput.selectionEnd = editInput.value.length;
 }
 
-/**
- * closeModal — hides the modal and clears the editing state.
- */
+
 function closeModal() {
   modalOverlay.hidden = true;
   editingId           = null;
   editInput.value     = '';
 }
 
-/**
- * saveTaskEdit — validates the new text, updates the task
- * object in the array, saves, re-renders, and closes the modal.
- */
 function saveTaskEdit() {
   const newText = editInput.value.trim();
   if (!newText || !editingId) return;
@@ -322,15 +251,8 @@ function saveTaskEdit() {
   renderBoard();
 }
 
-// ============================================================
-// 9. FILTER LOGIC
-// ============================================================
+//  FILTER LOGIC
 
-/**
- * Each filter button carries a data-filter attribute.
- * Clicking one sets currentFilter, toggles the active class,
- * and re-renders the board.
- */
 filterBtns.forEach(btn => {
   btn.addEventListener('click', () => {
     currentFilter = btn.dataset.filter;
@@ -340,10 +262,7 @@ filterBtns.forEach(btn => {
   });
 });
 
-// ============================================================
-// 10. CLEAR COMPLETED
-// ============================================================
-
+//  CLEAR COMPLETED
 clearCompleted.addEventListener('click', () => {
   const count = tasks.filter(t => t.completed).length;
   if (count === 0) return;
@@ -355,16 +274,12 @@ clearCompleted.addEventListener('click', () => {
   }
 });
 
-// ============================================================
-// 11. UTILITY: CHARACTER COUNTER
-// ============================================================
+//  UTILITY: CHARACTER COUNTER
 taskInput.addEventListener('input', () => {
   charCount.textContent = taskInput.value.length;
 });
 
-// ============================================================
-// 12. EVENT LISTENERS
-// ============================================================
+// EVENT LISTENERS
 
 // Add button click
 addBtn.addEventListener('click', addTask);
@@ -391,9 +306,6 @@ modalOverlay.addEventListener('click', e => {
   if (e.target === modalOverlay) closeModal();
 });
 
-// ============================================================
-// 13. INITIALISATION
-// ============================================================
 
 /**
  * init — called once when the page loads.
@@ -406,10 +318,7 @@ function init() {
 
 init();
 
-// ============================================================
-// 14. CSS SHAKE ANIMATION (injected once)
-// ============================================================
-// Injects the shake keyframe so we don't need an extra stylesheet.
+// CSS SHAKE ANIMATION 
 (function injectShakeKeyframe() {
   const style = document.createElement('style');
   style.textContent = `
