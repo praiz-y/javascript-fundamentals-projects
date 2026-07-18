@@ -8,42 +8,68 @@
 </head>
 <body>
 
-    <div class="app-container">
+    <div class="app-container" id="appContainer">
 
-        <h1>Weather App</h1>
-
-        <div class="search-box">
-            <input type="text" id="cityInput" placeholder="Enter city name" spellcheck="false">
-            <button id="searchBtn">Search</button>
+        <div class="top-bar">
+            <h1>Weather</h1>
+            <button id="unitToggle" class="unit-toggle" title="Switch units">&deg;C</button>
         </div>
 
-        <div class="weather-card" id="weatherCard">
+        <div class="search-box">
+            <input type="text" id="cityInput" placeholder="Enter city name" spellcheck="false" autocomplete="off">
+            <button id="searchBtn">Search</button>
+            <button id="locationBtn" title="Use my location">&#128205;</button>
+        </div>
 
-            <h2 id="cityName">City</h2>
+        <div class="recent-searches" id="recentSearches"></div>
+
+        <div class="status" id="statusBox" hidden></div>
+
+        <div class="weather-card" id="weatherCard" hidden>
+
+            <div class="current-top">
+                <div>
+                    <h2 id="cityName">City</h2>
+                    <p class="local-time" id="localTime"></p>
+                </div>
+                <img id="weatherIcon" class="weather-icon" alt="">
+            </div>
 
             <div class="weather-info">
 
-                <p class="temperature" id="temperature">--°C</p>
+                <p class="temperature" id="temperature">--&deg;</p>
+                <p class="feels-like" id="feelsLike"></p>
 
-                <p class="description" id="description">
-                Weather description
-                </p>
+                <p class="description" id="description">Weather description</p>
 
                 <div class="extra-info">
-
-                    <p>Humidity: <span id="humidity">--</span>%</p>
-
-                    <p>Wind: <span id="wind">--</span> km/h</p>
-
+                    <div class="extra-item">
+                        <span class="extra-label">Humidity</span>
+                        <span id="humidity">--</span>%
+                    </div>
+                    <div class="extra-item">
+                        <span class="extra-label">Wind</span>
+                        <span id="wind">--</span> km/h
+                    </div>
+                    <div class="extra-item">
+                        <span class="extra-label">Sunrise</span>
+                        <span id="sunrise">--</span>
+                    </div>
+                    <div class="extra-item">
+                        <span class="extra-label">Sunset</span>
+                        <span id="sunset">--</span>
+                    </div>
                 </div>
-
             </div>
+
+            <div class="forecast" id="forecast"></div>
 
         </div>
 
     </div>
 
+    <script src="config.js"></script>
     <script src="script.js"></script>
-    
+
 </body>
 </html>
