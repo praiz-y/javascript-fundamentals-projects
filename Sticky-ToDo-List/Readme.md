@@ -1,5 +1,7 @@
 # Sticky Notes Task App
 
+ [View the Live Demo](https://praiz-y.github.io/javascript-fundamentals-projects/Sticky-ToDo-List/)
+
 ## Description
 
 This is a simple sticky notes style task management application built with HTML, CSS, and JavaScript. The app allows users to create, view, and organize tasks in a visual sticky-note layout.
